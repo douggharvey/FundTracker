@@ -10,14 +10,28 @@ class FundsRepository constructor(application: Application) {
     val favourites: LiveData<List<FundList>>
 
     init {
-        val db =  FundsRoomDatabase.getDatabase(application)
+        val db = FundsRoomDatabase.getDatabase(application)
         this.fundDao = db.fundDao()
         this.allFunds = fundDao.getFunds()
         this.favourites = fundDao.getFavourites()
     }
 
-    fun insert(fund: Fund) {
-        AppExecutors.getInstance().diskIO().execute { fundDao.insert(fund) }
+/*
+    suspend fun getFavourites2(): Deferred<List<String>> =
+            coroutineScope {
+                async { fundDao.getFavourites2() }
+            }
+*/
+
+    suspend fun getFavourites2(): List<String> = fundDao.getFavourites2()
+
+
+    fun insertFund(fund: Fund) {
+        AppExecutors.getInstance().diskIO().execute { fundDao.insertFund(fund) }
+    }
+
+    fun insertFundPrice(fundPrice: FundPrice) {
+        AppExecutors.getInstance().diskIO().execute { fundDao.insertFundPrice(fundPrice) }
     }
 
     fun deleteFavourite(fundCode: String) {
@@ -31,7 +45,8 @@ class FundsRepository constructor(application: Application) {
     companion object {
 
         // For Singleton instantiation
-        @Volatile private var instance: FundsRepository? = null
+        @Volatile
+        private var instance: FundsRepository? = null
 
         fun getInstance(application: Application) =
                 instance ?: synchronized(this) {

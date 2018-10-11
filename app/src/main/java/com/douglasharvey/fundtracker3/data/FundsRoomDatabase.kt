@@ -13,7 +13,7 @@ import androidx.room.RoomDatabase
 ),
         views = arrayOf(
                 FundList::class),
-        version = 8, exportSchema = false)
+        version = 11, exportSchema = false)
 abstract class FundsRoomDatabase : RoomDatabase() {
     abstract fun fundDao(): FundDao
     abstract fun fundPricesDao(): FundPriceDao

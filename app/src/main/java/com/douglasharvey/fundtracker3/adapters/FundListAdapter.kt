@@ -35,7 +35,8 @@ class FundListAdapter(private val itemClick: (FundList) -> Unit) :
         fun bindFund(fund: FundList) = with(itemView) {
             fund_code.text = fund.fundCode
             fund_name.text = fund.fundName
-            favourites_button.isFavorite = (fund.fundCode.equals(fund.fav_fund_code))
+            fund_price.text = fund.fundPrice
+            favourites_button.isFavorite = (fund.fundCode.equals(fund.favFundCode))
 
             itemView.setOnClickListener { itemClick(fund) }
 

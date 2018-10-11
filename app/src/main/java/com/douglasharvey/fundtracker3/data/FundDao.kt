@@ -14,8 +14,14 @@ interface FundDao {
     @Query("SELECT * from fund_list WHERE fav_fund_code = fund_code ORDER BY fav_fund_code")
     fun getFavourites(): LiveData<List<FundList>>
 
+    @Query("SELECT fav_fund_code from fund_list WHERE fav_fund_code = fund_code ORDER BY fav_fund_code")
+    fun getFavourites2(): List<String>
+
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun insert(fund: Fund): Long
+    fun insertFund(fund: Fund): Long
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    fun insertFundPrice(fundPrice: FundPrice): Long
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insertFavourite(favourite: Favourite)
