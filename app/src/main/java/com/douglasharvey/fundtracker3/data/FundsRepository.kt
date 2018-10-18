@@ -34,6 +34,11 @@ class FundsRepository constructor(application: Application) {
         AppExecutors.getInstance().diskIO().execute { fundDao.insertFundPrice(fundPrice) }
     }
 
+    fun bulkInsertFundPrice(fundPriceList: List<FundPrice>) {
+        AppExecutors.getInstance().diskIO().execute { fundDao.bulkInsertFundPrice(fundPriceList) }
+    }
+
+
     fun deleteFavourite(fundCode: String) {
         AppExecutors.getInstance().diskIO().execute { fundDao.deleteFavourite(fundCode) }
     }

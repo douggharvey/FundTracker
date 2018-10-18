@@ -35,7 +35,19 @@ class FundListAdapter(private val itemClick: (FundList) -> Unit) :
         fun bindFund(fund: FundList) = with(itemView) {
             fund_code.text = fund.fundCode
             fund_name.text = fund.fundName
-            fund_price.text = fund.fundPrice
+            one_day.text = fund.oneDay
+            seven_days.text = fund.sevenDays
+            one_month.text = fund.oneMonth
+            three_months.text = fund.threeMonths
+            six_months.text = fund.sixMonths
+            one_year.text = fund.oneYear
+            three_years.text = fund.threeYears
+            five_years.text = fund.fiveYears
+            last_month.text = fund.lastMonth
+            start_of_year.text = fund.startYear
+            // todo override onInterceptTouchEvent, get X position and then apply to all views in recyclerview with  horizontal_scrollview.scrollTo(1000,0)
+
+            if (fund.fundPrice.equals("0")) fund_price.text = " " else fund_price.text = fund.fundPrice
             favourites_button.isFavorite = (fund.fundCode.equals(fund.favFundCode))
 
             itemView.setOnClickListener { itemClick(fund) }

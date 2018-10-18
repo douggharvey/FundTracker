@@ -27,7 +27,7 @@ object ServiceGenerator {
     fun <S> createService(
             serviceClass: Class<S>): S {
         if (!httpClient.interceptors().contains(logging)) {
-            httpClient.addInterceptor(logging)
+          //  httpClient.addInterceptor(logging) //TODO why did interceptor become null??
             builder.client(httpClient.build())
             retrofit = builder.build()
         }

@@ -16,26 +16,30 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         //todo temporarily removed for speed
-     //   GlobalScope.launch {readFundList()}
-        GlobalScope.launch {readFavouriteValues()}
-        //readFavouriteValues()
+         GlobalScope.launch {readFundList()} //TODO LOGGING INTERCEPTOR NULL PROBLEM
+        GlobalScope.launch { readFavouriteValues() }
         Timber.d("readFavouritesValues launched")
     }
 
-    suspend private fun readFavouriteValues() = runBlocking{
+    suspend private fun readFavouriteValues() = runBlocking {
         var favouriteList = " "
         val fundInterface = ServiceGenerator.createService(FundInterface::class.java)
         launch(Dispatchers.IO) {
             //todo decide how to handle dates
-            val favourites = withContext(Dispatchers.IO) {FundsRepository.getInstance(application).getFavourites2()}
-            favouriteList = favourites.joinToString()
+            val favourites = withContext(Dispatchers.IO) { FundsRepository.getInstance(application).getFavourites2() }
+            if (favourites.size != 0) {
+                favouriteList = favourites.joinToString()
 
-            val fundValueArrayList: ArrayList<FundValue> = fundInterface.values(favouriteList, "2018-09-10", "2035-01-01").await()
-            for (fundValue: FundValue in fundValueArrayList) {
-                val fundPrice = FundPrice(fundValue.fundCode, fundValue.unitValue, fundValue.valueDate)
-                Timber.d("INSERT PRICES: "+fundValue.fundCode)
-                FundsRepository.getInstance(application).insertFundPrice(fundPrice)
-            } //todo consider a transaction here or use bulk insert instead of a loop
+                val fundValueArrayList: ArrayList<FundValue> = fundInterface.values(favouriteList, "2017-10-01", "2035-01-01").await()
+                val fundPriceList: ArrayList<FundPrice> = arrayListOf()
+
+                for (fundValue: FundValue in fundValueArrayList) {
+                    fundPriceList.add(FundPrice(fundValue.fundCode, fundValue.unitValue, fundValue.valueDate))
+                }
+
+                FundsRepository.getInstance(application).bulkInsertFundPrice(fundPriceList)
+
+            }
         }
 
     }

@@ -24,6 +24,9 @@ interface FundDao {
     fun insertFundPrice(fundPrice: FundPrice): Long
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
+    fun bulkInsertFundPrice(fundPriceList: List<FundPrice>)
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insertFavourite(favourite: Favourite)
 
     @Query("DELETE FROM favourite WHERE fund_code =:fundCode")
