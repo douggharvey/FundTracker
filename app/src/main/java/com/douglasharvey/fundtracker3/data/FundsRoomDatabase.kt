@@ -12,17 +12,17 @@ import timber.log.Timber
         Fund::class,
         FundPrice::class,
         FundPriceSummary::class,
+        FundTransaction::class,
         FundPriceOverview::class,
         Favourite::class
 ),
         views = arrayOf(
-                FundList::class),
-        version = 22, exportSchema = false)
+                FundList::class,
+                FundPortfolioList::class),
+        version = 31, exportSchema = false)
 abstract class FundsRoomDatabase : RoomDatabase() {
     abstract fun fundDao(): FundDao
     abstract fun fundPricesDao(): FundPriceDao
-    abstract fun fundPriceSummaryDao(): FundPriceSummaryDao
-    abstract fun fundPriceOverviewDao(): FundPriceOverviewDao
 
     companion object {
 
@@ -93,3 +93,9 @@ abstract class FundsRoomDatabase : RoomDatabase() {
 // need one more table populated by trigger - each column will have a separate summary result.
 // yeartodate & last month's income also needed
 
+//test values
+//INSERT INTO FUND_TRANSACTION VALUES ('IST',.021228,2947716,'2018-06-16'),
+// ('TI3',58.875781,505,'2018-06-16'),
+// ('TTE',0.038319,5720000,'2018-06-16'),
+// ('YLB',0.216718,15053,'2018-06-16' ),
+// ('YAS',0.844465,188069,'2018-06-16');

@@ -7,13 +7,17 @@ import com.douglasharvey.fundtracker3.utilities.AppExecutors
 class FundsRepository constructor(application: Application) {
     private val fundDao: FundDao
     val allFunds: LiveData<List<FundList>>
+    val portfolioList: LiveData<List<FundPortfolioList>>
     val favourites: LiveData<List<FundList>>
+    val portfolioSummary: LiveData<FundPortfolioSummary>
 
     init {
         val db = FundsRoomDatabase.getDatabase(application)
         this.fundDao = db.fundDao()
         this.allFunds = fundDao.getFunds()
         this.favourites = fundDao.getFavourites()
+        this.portfolioList = fundDao.getPortfolioList()
+        this.portfolioSummary = fundDao.getPortfolioSummary()
     }
 
 /*

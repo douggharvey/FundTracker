@@ -47,6 +47,7 @@ class FundListAdapter(private val itemClick: (FundList) -> Unit) :
             start_of_year.text = fund.startYear
             // todo override onInterceptTouchEvent, get X position and then apply to all views in recyclerview with  horizontal_scrollview.scrollTo(1000,0)
 
+            if (fund.oneDay=="0") horizontal_scrollview.visibility = View.GONE
             if (fund.fundPrice.equals("0")) fund_price.text = " " else fund_price.text = fund.fundPrice
             favourites_button.isFavorite = (fund.fundCode.equals(fund.favFundCode))
 

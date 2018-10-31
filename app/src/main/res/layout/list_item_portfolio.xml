@@ -1,0 +1,188 @@
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="?android:attr/selectableItemBackground"
+    android:clickable="true"
+    android:focusable="true">
+
+    <TextView xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:id="@+id/fund_code"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:textAppearance="?attr/textAppearanceListItemSmall"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="ACF" />
+
+    <TextView xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:id="@+id/fund_name"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:textAppearance="?attr/textAppearanceListItemSmall"
+        app:layout_constraintEnd_toStartOf="@id/favourites_button"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/fund_code"
+        tools:text="ACTUS PORTFÖY" />
+
+    <TextView xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:id="@+id/unit_heading"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="Units:"
+        android:textAppearance="?attr/textAppearanceListItemSmall"
+        app:layout_constraintStart_toStartOf="@id/fund_name"
+        app:layout_constraintTop_toBottomOf="@id/fund_name"
+        tools:text="Number of Units" />
+
+    <TextView xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:id="@+id/unit"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:textAppearance="?attr/textAppearanceListItemSmall"
+        app:layout_constraintEnd_toStartOf="@id/middle_guideline"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintTop_toBottomOf="@id/fund_name"
+        tools:text="units" />
+
+    <TextView xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:id="@+id/current_price_heading"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="Price:"
+        android:textAppearance="?attr/textAppearanceListItemSmall"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="@id/fund_name"
+        app:layout_constraintTop_toBottomOf="@id/unit_heading"
+        tools:text="Current price:" />
+
+    <TextView xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:id="@+id/current_price"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:textAppearance="?attr/textAppearanceListItemSmall"
+        app:layout_constraintEnd_toStartOf="@id/middle_guideline"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintTop_toBottomOf="@id/unit_heading"
+        tools:text="price" />
+
+    <TextView xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:id="@+id/total_heading"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="Value:"
+        android:textAppearance="?attr/textAppearanceListItemSmall"
+        app:layout_constraintStart_toStartOf="@id/fund_name"
+        app:layout_constraintTop_toBottomOf="@id/current_price_heading"
+        tools:text="Current total value:" />
+
+    <TextView xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:id="@+id/total"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:textAppearance="?attr/textAppearanceListItemSmall"
+        app:layout_constraintEnd_toStartOf="@id/middle_guideline"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintTop_toBottomOf="@id/current_price_heading"
+        tools:text="total" />
+
+    <TextView xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:id="@+id/cost_heading"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:text="Cost:"
+        android:textAppearance="?attr/textAppearanceListItemSmall"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="@id/middle_guideline"
+        app:layout_constraintTop_toBottomOf="@id/fund_name"
+        tools:text="Purchase cost:" />
+
+    <TextView xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:id="@+id/cost"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:textAppearance="?attr/textAppearanceListItemSmall"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/fund_name"
+        tools:text="cost" />
+
+    <TextView xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:id="@+id/sold_proceeds_heading"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:text="Proceeds:"
+        android:textAppearance="?attr/textAppearanceListItemSmall"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="@id/middle_guideline"
+        app:layout_constraintTop_toBottomOf="@id/cost_heading"
+        tools:text="Sale proceeds:" />
+
+    <TextView xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:id="@+id/sold_proceeds"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:textAppearance="?attr/textAppearanceListItemSmall"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintTop_toBottomOf="@id/cost_heading"
+        tools:text="proceeds" />
+
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/middle_guideline"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.45" />
+
+
+    <TextView xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:id="@+id/profit_loss_heading"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:text="Profit/Loss:"
+        android:textAppearance="?attr/textAppearanceListItemSmall"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toEndOf="@id/middle_guideline"
+        app:layout_constraintTop_toBottomOf="@id/sold_proceeds_heading"
+        tools:text="Profit/Loss:" />
+
+    <TextView xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:id="@+id/profit_loss"
+        android:layout_width="0dp"
+        android:layout_marginEnd="8dp"
+        android:layout_height="wrap_content"
+        android:textAppearance="?attr/textAppearanceListItemSmall"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/sold_proceeds_heading"
+        tools:text="profit_loss" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

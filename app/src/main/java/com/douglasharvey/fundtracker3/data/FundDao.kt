@@ -17,6 +17,12 @@ interface FundDao {
     @Query("SELECT fav_fund_code from fund_list WHERE fav_fund_code = fund_code ORDER BY fav_fund_code")
     fun getFavourites2(): List<String>
 
+    @Query("SELECT * from fund_portfolio_list")
+    fun getPortfolioList(): LiveData<List<FundPortfolioList>>
+
+    @Query("SELECT sum(current_value) current_value, sum(cost) cost, count(*) number_funds, sum(profit_loss) profit_loss, sum(sold_proceeds) sold_proceeds from fund_portfolio_list")
+    fun getPortfolioSummary(): LiveData<FundPortfolioSummary>
+
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insertFund(fund: Fund): Long
 

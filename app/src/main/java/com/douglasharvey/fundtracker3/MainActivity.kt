@@ -1,24 +1,27 @@
 package com.douglasharvey.fundtracker3
 
 import android.os.Bundle
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.douglasharvey.fundtracker3.api.ServiceGenerator
 import com.douglasharvey.fundtracker3.data.Fund
 import com.douglasharvey.fundtracker3.data.FundPrice
 import com.douglasharvey.fundtracker3.data.FundsRepository
+import com.douglasharvey.fundtracker3.utilities.NetworkUtils
 import kotlinx.coroutines.experimental.*
 import kotlinx.coroutines.experimental.android.Main
-import timber.log.Timber
 
 class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        //todo temporarily removed for speed
-         GlobalScope.launch {readFundList()} //TODO LOGGING INTERCEPTOR NULL PROBLEM
-        GlobalScope.launch { readFavouriteValues() }
-        Timber.d("readFavouritesValues launched")
+        if (NetworkUtils.isInternetAvailable(applicationContext)) {
+            //todo temporarily removed for speed
+            Toast.makeText(applicationContext, "Fund List & values updating", Toast.LENGTH_LONG).show()
+            GlobalScope.launch { readFundList() } //TODO LOGGING INTERCEPTOR NULL PROBLEM
+            GlobalScope.launch { readFavouriteValues() }
+        }
     }
 
     suspend private fun readFavouriteValues() = runBlocking {
@@ -38,14 +41,15 @@ class MainActivity : AppCompatActivity() {
                 }
 
                 FundsRepository.getInstance(application).bulkInsertFundPrice(fundPriceList)
-
+                withContext(Dispatchers.Main) { Toast.makeText(applicationContext, "Values updated", Toast.LENGTH_LONG).show() }
             }
+
         }
 
     }
 
     //todo temporary for testing purposes - will be a scheduled job instead
-    private fun readFundList() = runBlocking {
+    suspend private fun readFundList() = runBlocking {
         val fundInterface = ServiceGenerator.createService(FundInterface::class.java)
         launch(Dispatchers.Main) {
             val fundSourceArrayList: ArrayList<FundSource> = fundInterface.funds().await() // TODO how to get / handle response code - find other examples
@@ -53,6 +57,7 @@ class MainActivity : AppCompatActivity() {
                 val fund = Fund(fundSource.fundCode, fundSource.fundName)
                 FundsRepository.getInstance(application).insertFund(fund)
             }
+            withContext(Dispatchers.Main) { Toast.makeText(applicationContext, "Fund List updated", Toast.LENGTH_LONG).show() }
         }
     }
 
