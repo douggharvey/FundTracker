@@ -4,10 +4,10 @@ import android.app.Application
 import androidx.lifecycle.LiveData
 import com.douglasharvey.fundtracker3.utilities.AppExecutors
 
-class FundsRepository constructor(application: Application) {
+class FundsRepository constructor(application: Application, portfolioCode: String = "") {
     private val fundDao: FundDao
     val allFunds: LiveData<List<FundList>>
-    val portfolioList: LiveData<List<FundPortfolioList>>
+    val portfolioList: LiveData<List<FundSummary>>
     val favourites: LiveData<List<FundList>>
     val portfolioSummary: LiveData<FundPortfolioSummary>
 
@@ -16,8 +16,8 @@ class FundsRepository constructor(application: Application) {
         this.fundDao = db.fundDao()
         this.allFunds = fundDao.getFunds()
         this.favourites = fundDao.getFavourites()
-        this.portfolioList = fundDao.getPortfolioList()
-        this.portfolioSummary = fundDao.getPortfolioSummary()
+        this.portfolioList = fundDao.getPortfolioList(portfolioCode)
+        this.portfolioSummary = fundDao.getPortfolioSummary(portfolioCode)
     }
 
 /*

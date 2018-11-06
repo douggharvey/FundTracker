@@ -17,11 +17,18 @@ interface FundDao {
     @Query("SELECT fav_fund_code from fund_list WHERE fav_fund_code = fund_code ORDER BY fav_fund_code")
     fun getFavourites2(): List<String>
 
-    @Query("SELECT * from fund_portfolio_list")
-    fun getPortfolioList(): LiveData<List<FundPortfolioList>>
+    @Query("select  fund_code, fund_name, sum(unit) number_units,  current_price, sum(profit_loss) profit_loss, " +
+            "sum(current_value) current_value, sum(cost) cost,  sum(sold_proceeds) sold_proceeds" +
+            " from fund_portfolio_list " +
+            " where portfolio_code = (case when :portfolioCode = 'A' then portfolio_code else :portfolioCode end) " +
+             " group by fund_code")
+    //todo add portfolio parameter here , maybe account too. add group by fund_code to get main page where condition is for portfolio if selected otherwise return all portfolios
+    fun getPortfolioList(portfolioCode: String): LiveData<List<FundSummary>>
 
-    @Query("SELECT sum(current_value) current_value, sum(cost) cost, count(*) number_funds, sum(profit_loss) profit_loss, sum(sold_proceeds) sold_proceeds from fund_portfolio_list")
-    fun getPortfolioSummary(): LiveData<FundPortfolioSummary>
+    @Query("SELECT sum(current_value) current_value, sum(cost) cost, count(distinct(fund_code)) number_funds, sum(profit_loss) profit_loss, sum(sold_proceeds) sold_proceeds " +
+            "from fund_portfolio_list " +
+            "where portfolio_code = (case when :portfolioCode = 'A' then portfolio_code else :portfolioCode end) ")
+    fun getPortfolioSummary(portfolioCode: String): LiveData<FundPortfolioSummary>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insertFund(fund: Fund): Long

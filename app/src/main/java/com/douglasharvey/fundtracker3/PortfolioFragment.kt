@@ -9,9 +9,11 @@ import android.view.ViewGroup
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import com.douglasharvey.fundtracker3.adapters.FundPortfolioListAdapter
-import com.douglasharvey.fundtracker3.data.FundPortfolioList
+import com.douglasharvey.fundtracker3.application.FundTrackerApplication
 import com.douglasharvey.fundtracker3.data.FundPortfolioListViewModel
+import com.douglasharvey.fundtracker3.data.FundPortfolioListViewModelFactory
 import com.douglasharvey.fundtracker3.data.FundPortfolioSummary
+import com.douglasharvey.fundtracker3.data.FundSummary
 import kotlinx.android.synthetic.main.fragment_portfolio.*
 import kotlinx.android.synthetic.main.fragment_portfolio.view.*
 
@@ -39,7 +41,15 @@ class PortfolioFragment : androidx.fragment.app.Fragment() {
             layoutManager = viewManager
             adapter = FundPortfolioListAdapter
         }
-        val fundViewModel = ViewModelProviders.of(this).get(FundPortfolioListViewModel::class.java)
+        val portfolioKey = "1" //A=ALL
+        val fundViewModel = ViewModelProviders.of(this,
+                FundPortfolioListViewModelFactory(FundTrackerApplication.instance, portfolioKey)).
+                get(portfolioKey, FundPortfolioListViewModel::class.java)
+
+//todo finish portfolio handling, need 1 screen with all portfolio's total, then 1 screen per portfolio
+        //also do summary at top of screen
+        //need viewpager
+        //decide how to implement adding a new portfolio
 
         fundViewModel.portfolioList.observe(this, Observer(FundPortfolioListAdapter::setFundPortfolioList))
         fundViewModel.portfolioSummary.observe(this, Observer<FundPortfolioSummary> { portfolioSummary ->
@@ -56,7 +66,7 @@ class PortfolioFragment : androidx.fragment.app.Fragment() {
         tv_fund_number.text = "%.0f".format(portfolioSummary.numberFunds)
     }
 
-    private fun fundItemClicked(fund: FundPortfolioList) {
+    private fun fundItemClicked(fund: FundSummary) {
 //todo
     }
 
