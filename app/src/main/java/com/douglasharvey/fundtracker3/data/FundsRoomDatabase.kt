@@ -74,11 +74,12 @@ abstract class FundsRoomDatabase : RoomDatabase() {
                         "       IFNULL((SELECT (month_end_price2 / month_end_price1 - 1)*100 FROM ( SELECT (SELECT fund_price FROM fund_prices WHERE fund_code = fund.fund_code AND price_date = (SELECT Max(price_date) FROM fund_prices WHERE fund_code = fund.fund_code AND Date(price_date, 'start of month') = ( SELECT Date(Max(price_date), 'start of month', '-2 months' ) FROM fund_prices WHERE fund_code = fund.fund_code))) month_end_price1, (SELECT fund_price FROM fund_prices WHERE fund_code = fund.fund_code AND price_date = (SELECT Max(price_date) FROM fund_prices WHERE fund_code = fund.fund_code AND Date(price_date, 'start of month') = ( SELECT Date(Max(price_date), 'start of month', '-1 months' ) FROM fund_prices WHERE fund_code = fund.fund_code))) month_end_price2 FROM fund WHERE fund_code = ps.fund_code )),0) last_month " +
                         "  FROM fund_price_summary ps WHERE ps.fund_code = new.fund_code; END; ")
 
-                db.execSQL("INSERT INTO PORTFOLIO VALUES ('1','YAPI KREDI')")
+                db.execSQL("INSERT INTO PORTFOLIO VALUES (1,'YAPI KREDI')")
+                db.execSQL("INSERT INTO PORTFOLIO VALUES (2,'YAPI KREDI 2')")
                 db.execSQL("INSERT INTO FAVOURITE VALUES ('IST'), ('YAS'),('TTE'),('TI3'),('YLB')")
                 db.execSQL("INSERT INTO ACCOUNT VALUES ('TR94 0006 7010 0000 0047 4517 76','1','GENERAL SAVINGS')," +
                                                          " ('TR22 0006 7010 0000 0025 9055 89','1','WORKING ACCOUNT'), " +
-                                                         "('TR06 0006 7010 0000 0092 3877 37','1','OTHER')")
+                                                         "('TR06 0006 7010 0000 0092 3877 37','2','OTHER')")
                 db.execSQL("INSERT INTO FUND_TRANSACTION VALUES " +
                         "('TTE',0.033592,65000,'2016-04-20','B','TR94 0006 7010 0000 0047 4517 76')," +
                         "('TTE',0.032869,3045000,'2016-04-26','B','TR94 0006 7010 0000 0047 4517 76' )  ," +

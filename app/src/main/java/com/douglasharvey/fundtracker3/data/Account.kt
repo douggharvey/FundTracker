@@ -13,6 +13,6 @@ import androidx.room.PrimaryKey
                 onDelete = ForeignKey.CASCADE))) //TODO which constraint? and check whether works as expected
 data class Account(
         @PrimaryKey @ColumnInfo(name = "account_number") val fundCode: String,
-        @ColumnInfo(name="portfolio_code") val portfolioCode: String,
+        @ColumnInfo(name="portfolio_code") val portfolioCode: Int,
         @ColumnInfo(name = "account_name") val fundName: String
 )

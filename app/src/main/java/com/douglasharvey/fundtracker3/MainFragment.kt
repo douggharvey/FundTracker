@@ -32,7 +32,7 @@ class MainFragment : androidx.fragment.app.Fragment() {
         }
 
         portfolio_button.setOnClickListener(
-                Navigation.createNavigateOnClickListener(R.id.action_mainFragment_to_portfolioFragment, null)
+                Navigation.createNavigateOnClickListener(R.id.action_mainFragment_to_portfolioMainFragment, null)
         )
     }
 

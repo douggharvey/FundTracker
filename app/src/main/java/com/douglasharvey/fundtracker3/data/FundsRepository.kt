@@ -4,7 +4,7 @@ import android.app.Application
 import androidx.lifecycle.LiveData
 import com.douglasharvey.fundtracker3.utilities.AppExecutors
 
-class FundsRepository constructor(application: Application, portfolioCode: String = "") {
+class FundsRepository constructor(application: Application, portfolioCode: String = "0") {
     private val fundDao: FundDao
     val allFunds: LiveData<List<FundList>>
     val portfolioList: LiveData<List<FundSummary>>
@@ -16,16 +16,9 @@ class FundsRepository constructor(application: Application, portfolioCode: Strin
         this.fundDao = db.fundDao()
         this.allFunds = fundDao.getFunds()
         this.favourites = fundDao.getFavourites()
-        this.portfolioList = fundDao.getPortfolioList(portfolioCode)
-        this.portfolioSummary = fundDao.getPortfolioSummary(portfolioCode)
+        this.portfolioList = fundDao.getPortfolioList(portfolioCode.toInt())
+        this.portfolioSummary = fundDao.getPortfolioSummary(portfolioCode.toInt())
     }
-
-/*
-    suspend fun getFavourites2(): Deferred<List<String>> =
-            coroutineScope {
-                async { fundDao.getFavourites2() }
-            }
-*/
 
     suspend fun getFavourites2(): List<String> = fundDao.getFavourites2()
 

@@ -24,6 +24,14 @@
             app:exitAnim="@anim/slide_out_left"
             app:popEnterAnim="@anim/slide_in_left"
             app:popExitAnim="@anim/slide_out_right" />
+        <action
+            android:id="@+id/action_mainFragment_to_portfolioMainFragment"
+            app:destination="@id/portfolioMainFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right"
+            />
     </fragment>
 
     <fragment
@@ -55,5 +63,11 @@
             android:defaultValue=""
             app:argType="string" />
     </fragment>
+
+    <fragment
+        android:id="@+id/portfolioMainFragment"
+        android:name="com.douglasharvey.fundtracker3.PortfolioMainFragment"
+        android:label="fragment_portfolio_main"
+        tools:layout="@layout/fragment_portfolio_main" />
 
 </navigation>
