@@ -1,10 +1,12 @@
 package com.douglasharvey.fundtracker3
 
 
+import android.net.http.SslError
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.webkit.SslErrorHandler
 import android.webkit.WebView
 import android.webkit.WebViewClient
 import kotlinx.android.synthetic.main.fragment_web_view.*
@@ -21,9 +23,9 @@ class WebViewFragment : androidx.fragment.app.Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         webView!!.webViewClient = object : WebViewClient() {
-            override fun shouldOverrideUrlLoading(view: WebView?, url: String?): Boolean { //todo correct deprecated method
-                view?.loadUrl(url)
-                return true
+//https://stackoverflow.com/questions/18377769/webview-not-able-to-load-https-url-in-android?noredirect=1&lq=1
+            override fun onReceivedSslError(view: WebView?, handler: SslErrorHandler?, error: SslError?) {
+                handler?.proceed()
             }
         }
         val webAddress = arguments?.let {
@@ -33,11 +35,7 @@ class WebViewFragment : androidx.fragment.app.Fragment() {
         webView.settings.loadWithOverviewMode = true
         webView.settings.useWideViewPort = true
         webView.settings.builtInZoomControls = true
-        webView.settings.javaScriptEnabled = true
-        // https@ //stackoverflow.com/questions/32304237/android-webView-loading-data-performance-very-slow/34389203
-//        webView.settings.cacheMode(WebSettings.LOAD_NO_CACHE)
-
-      //  webView.setLayerType(View.LAYER_TYPE_HARDWARE, null);
+        webView.settings.javaScriptEnabled = true //needed to enable graph from website
         webView!!.loadUrl(webAddress)
     }
 }

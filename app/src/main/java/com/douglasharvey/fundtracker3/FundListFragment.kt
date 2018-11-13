@@ -59,7 +59,7 @@ class FundListFragment : androidx.fragment.app.Fragment(), SearchView.OnQueryTex
         val webViewList: MutableList<FundList> = allFundList!!.toMutableList()
         for (fund2: FundList in webViewList) {
             val view = WebView(context)
-            view.loadUrl("http://tefas.gov.tr/FonAnaliz.aspx?FonKod=${fund2.fundCode}")
+            view.loadUrl("https://tefas.gov.tr/FonAnaliz.aspx?FonKod=${fund2.fundCode}")
             Timber.d("prefetching webviews:{fund2.fundCode}")
         }
     }
@@ -68,9 +68,9 @@ class FundListFragment : androidx.fragment.app.Fragment(), SearchView.OnQueryTex
     //https://guides.codepath.com/android/viewpager-with-fragmentpageradapter#overview
     private fun fundItemClicked(fund: FundList) {
         //preFetchWebViews()
-        //   Toast.makeText(activity, "Clicked: ${fund.fundCode} ${fund.fundName}", Toast.LENGTH_LONG).show()
+//        Toast.makeText(activity, "Clicked: ${fund.fundCode} ${fund.fundName}", Toast.LENGTH_LONG).show()
         val action = FundListFragmentDirections.actionFundListFragmentToWebViewFragment()
-        action.setWebAddress("http://tefas.gov.tr/FonAnaliz.aspx?FonKod=${fund.fundCode}")
+        action.setWebAddress("https://tefas.gov.tr/FonAnaliz.aspx?FonKod=${fund.fundCode}")
         Navigation.findNavController(activity!!, R.id.my_nav_host_fragment).navigate(action)
     }
 
