@@ -1,6 +1,8 @@
-package com.douglasharvey.fundtracker3
+package com.douglasharvey.fundtracker3.api
 
-import kotlinx.coroutines.experimental.Deferred
+import com.douglasharvey.fundtracker3.FundSource
+import com.douglasharvey.fundtracker3.FundValue
+import kotlinx.coroutines.Deferred
 import retrofit2.http.GET
 import retrofit2.http.Path
 import java.util.*

@@ -3,13 +3,14 @@ package com.douglasharvey.fundtracker3
 import android.os.Bundle
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import com.douglasharvey.fundtracker3.api.FundInterface
 import com.douglasharvey.fundtracker3.api.ServiceGenerator
 import com.douglasharvey.fundtracker3.data.Fund
 import com.douglasharvey.fundtracker3.data.FundPrice
 import com.douglasharvey.fundtracker3.data.FundsRepository
 import com.douglasharvey.fundtracker3.utilities.NetworkUtils
-import kotlinx.coroutines.experimental.*
-import kotlinx.coroutines.experimental.android.Main
+import kotlinx.coroutines.*
+import kotlinx.coroutines.android.Main
 
 class MainActivity : AppCompatActivity() {
 

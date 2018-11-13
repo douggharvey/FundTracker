@@ -9,6 +9,7 @@ import androidx.fragment.app.Fragment
 import androidx.viewpager.widget.ViewPager
 import com.douglasharvey.fundtracker3.adapters.PortfolioPagerAdapter
 
+
 class PortfolioMainFragment : Fragment() {
 
     private lateinit var viewPager: ViewPager
@@ -16,7 +17,7 @@ class PortfolioMainFragment : Fragment() {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
         val view = inflater.inflate(R.layout.fragment_portfolio_main, container, false)
-        viewPager = view.findViewById(R.id.vp_portfolio) //todo why didn't extensions work here!
+        viewPager = view.findViewById(R.id.vp_portfolio) //todo why didn't extensions work here! ava.lang.IllegalStateException: vp_portfolio must not be null
 
         val pagerAdapter = PortfolioPagerAdapter(fragmentManager!!)
         viewPager.adapter = pagerAdapter

@@ -17,6 +17,7 @@ import com.douglasharvey.fundtracker3.data.FundSummary
 import kotlinx.android.synthetic.main.fragment_portfolio.*
 import kotlinx.android.synthetic.main.fragment_portfolio.view.*
 
+//private val FRAGMENTARGUMENT1 = "portfolio_number"
 
 class PortfolioFragment : androidx.fragment.app.Fragment() {
     private var portfolio: Int = 0
@@ -49,7 +50,7 @@ class PortfolioFragment : androidx.fragment.app.Fragment() {
                 get(portfolioKey, FundPortfolioListViewModel::class.java)
 
         //todo decide how to implement adding a new portfolio
-
+//https://www.raywenderlich.com/324-viewpager-tutorial-getting-started-in-kotlin todo add tablayout
         fundViewModel.portfolioList.observe(this, Observer(FundPortfolioListAdapter::setFundPortfolioList))
         fundViewModel.portfolioSummary.observe(this, Observer<FundPortfolioSummary> { portfolioSummary ->
             setFundPortfolioSummary(portfolioSummary)
@@ -59,11 +60,11 @@ class PortfolioFragment : androidx.fragment.app.Fragment() {
 
     private fun readBundle(bundle: Bundle?) {
         if (bundle != null) {
-            portfolio = bundle.getInt("portfolio") // todo make it constant
+            portfolio = bundle.getInt("portfolio")
         }
     }
     private fun setFundPortfolioSummary(portfolioSummary: FundPortfolioSummary) {
-        status_heading.text = "Summary for Portfolio: $portfolio" //todo pass name too
+       // status_heading.text = "Summary for Portfolio: $portfolio" //todo pass name too
         tv_total_amount.text = "%.2f".format(portfolioSummary.currentValue)
         tv_cost.text = "%.2f".format(portfolioSummary.cost)
         tv_sold_proceeds.text = "%.2f".format(portfolioSummary.soldProceeds)

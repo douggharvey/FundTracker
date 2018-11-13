@@ -21,8 +21,8 @@ import timber.log.Timber
         views = arrayOf(
                 FundList::class,
                 FundPortfolioList::class
-                ),
-        version = 36, exportSchema = false)
+        ),
+        version = 38, exportSchema = false)
 abstract class FundsRoomDatabase : RoomDatabase() {
     abstract fun fundDao(): FundDao
     abstract fun fundPricesDao(): FundPriceDao
@@ -45,10 +45,20 @@ abstract class FundsRoomDatabase : RoomDatabase() {
             }
             return INSTANCE!!
         }
-//todo this also needs to be executed when db version is upgraded?
+
+        //todo this also needs to be executed when db version is upgraded?
         private val CALLBACK = object : RoomDatabase.Callback() {
             override fun onCreate(db: SupportSQLiteDatabase) {
                 super.onCreate(db)
+                populateDB(db)
+            }
+
+            override fun onOpen(db: SupportSQLiteDatabase) {
+                super.onOpen(db)
+             //   populateDB(db)
+            }
+
+            private fun populateDB(db: SupportSQLiteDatabase) {
                 Timber.d("TRIGGER CREATED") // NOT BEING CREATED ON PHONE (MARSHMALLOW 23 VS EMULATOR 28)   - WORKS ON TABLET (NOUGAT 25) - but OPEN works!
                 //maybe drop & recreate trigger or only create if it does not exist. but not a good solution, what if a change is required. In any case, need to consider migration
                 db.execSQL("CREATE TRIGGER update_summary_table AFTER INSERT ON fund_prices " +
@@ -75,12 +85,15 @@ abstract class FundsRoomDatabase : RoomDatabase() {
                         "  FROM fund_price_summary ps WHERE ps.fund_code = new.fund_code; END; ")
 
                 db.execSQL("INSERT INTO PORTFOLIO VALUES (1,'YAPI KREDI')")
-                db.execSQL("INSERT INTO PORTFOLIO VALUES (2,'YAPI KREDI 2')")
+                db.execSQL("INSERT INTO PORTFOLIO VALUES (2,'GARANTİ')")
                 db.execSQL("INSERT INTO FAVOURITE VALUES ('IST'), ('YAS'),('TTE'),('TI3'),('YLB')")
                 db.execSQL("INSERT INTO ACCOUNT VALUES ('TR94 0006 7010 0000 0047 4517 76','1','GENERAL SAVINGS')," +
-                                                         " ('TR22 0006 7010 0000 0025 9055 89','1','WORKING ACCOUNT'), " +
-                                                         "('TR06 0006 7010 0000 0092 3877 37','2','OTHER')")
-                db.execSQL("INSERT INTO FUND_TRANSACTION VALUES " +
+                        " ('TR22 0006 7010 0000 0025 9055 89','1','WORKING ACCOUNT'), " +
+                        " ('TR63 0006 2001 3200 0006 6967 54','2','GARANTI ELMA'), " +
+                        "('TR06 0006 7010 0000 0092 3877 37','1','OTHER')")
+                db.execSQL("INSERT INTO FUND_TRANSACTION " +
+                        "(fund_code, fund_price, unit, transaction_date, transaction_type, account) " +
+                        "VALUES  " +
                         "('TTE',0.033592,65000,'2016-04-20','B','TR94 0006 7010 0000 0047 4517 76')," +
                         "('TTE',0.032869,3045000,'2016-04-26','B','TR94 0006 7010 0000 0047 4517 76' )  ," +
                         "('TTE',0.030083,660000,'2016-07-28','B','TR94 0006 7010 0000 0047 4517 76'  )  ," +
@@ -120,6 +133,7 @@ abstract class FundsRoomDatabase : RoomDatabase() {
                         "('IST',0.018133,27574,'2017-04-19','B','TR94 0006 7010 0000 0047 4517 76'   )  ," +
                         "('IST',0.018181,2404372,'2017-04-27','B','TR94 0006 7010 0000 0047 4517 76' )  ," +
                         "('IST',0.018395,54363,'2017-05-31','S','TR94 0006 7010 0000 0047 4517 76'  )  ," +
+                        "('IST',0.022871,173536,'2018-11-09','B','TR94 0006 7010 0000 0047 4517 76'  )  ," +
                         "('YAS',0.726842,6879,'2015-11-03','B','TR22 0006 7010 0000 0025 9055 89'    )  ," +
                         "('YAS',0.792286,378,'2016-04-06','B','TR22 0006 7010 0000 0025 9055 89'     )  ," +
                         "('YAS',0.83378,2398,'2016-04-12','B','TR22 0006 7010 0000 0025 9055 89'     )  ," +
@@ -133,10 +147,29 @@ abstract class FundsRoomDatabase : RoomDatabase() {
                         "('YAS',1.017497,99,'2017-07-27','S','TR94 0006 7010 0000 0047 4517 76'     )  ," +
                         "('TI3',51.737286,386,'2017-04-28','B','TR94 0006 7010 0000 0047 4517 76'    )  ," +
                         "('TI3',58.412213,119,'2017-08-07','B','TR94 0006 7010 0000 0047 4517 76'    )  ," +
-                        "('YLB',0.231451,14115,'2018-10-24','B','TR22 0006 7010 0000 0025 9055 89')," +
-                        "('YLB',0.231451,938,'2018-10-25','B','TR06 0006 7010 0000 0092 3877 37' )  ")
-
+                        "('YLB',0.221881,4506,'2018-08-10','B','TR22 0006 7010 0000 0025 9055 89'   )  ," +
+                        "('YLB',0.20812,9609,'2018-02-22','B','TR22 0006 7010 0000 0025 9055 89'   )  ," +
+                        "('YLB',0.218475,938,'2018-07-06','B','TR06 0006 7010 0000 0092 3877 37'     )  ," +
+            //Garanti transactions
+                        "('IST',0.019374,9294,  '2017-10-26','S','TR63 0006 2001 3200 0006 6967 54')	,  " +
+                        "('TTE',0.051505,15000, '2017-09-11','B','TR63 0006 2001 3200 0006 6967 54') ,     " +
+                        "('IST',0.019331,18630, '2017-10-20','S','TR63 0006 2001 3200 0006 6967 54') ,     " +
+                        "('IST',0.018408,146739,'2017-06-02','S','TR63 0006 2001 3200 0006 6967 54'),     " +
+                        "('IST',0.018497,86500, '2017-06-16','B','TR63 0006 2001 3200 0006 6967 54') ,     " +
+                        "('IST',0.018615,86128, '2017-07-04','S','TR63 0006 2001 3200 0006 6967 54') ,     " +
+                        "('IST',0.018222,5487,  '2017-05-04','B','TR63 0006 2001 3200 0006 6967 54')  ,     " +
+                        "('IST',0.018222,5487,  '2017-05-04','B','TR63 0006 2001 3200 0006 6967 54')  ,     " +
+                        "('IST',0.018222,504884,'2017-05-04','B','TR63 0006 2001 3200 0006 6967 54'),     " +
+                        "('TTE',0.045066,665000,'2017-05-05','B','TR63 0006 2001 3200 0006 6967 54'),     " +
+                        "('IST',0.018043,155504,'2017-04-04','S','TR63 0006 2001 3200 0006 6967 54'),     " +
+                        "('IST',0.017718,352592,'2017-02-07','B','TR63 0006 2001 3200 0006 6967 54'),     " +
+                        "('IST',0.017753,487801,'2017-02-13','B','TR63 0006 2001 3200 0006 6967 54'),     " +
+                        "('IST',0.01785, 100880,'2017-02-03','S','TR63 0006 2001 3200 0006 6967 54'),     " +
+                        "('IST',0.021804,4587,  '2018-08-13','S','TR63 0006 2001 3200 0006 6967 54')  ,     " +
+                        "('IST',0.022615,301258,'2018-10-22','S','TR63 0006 2001 3200 0006 6967 54')    "
+                )
             }
+
         }
     }
 }

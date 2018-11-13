@@ -1,14 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".PortfolioMainFragment">
 
     <androidx.viewpager.widget.ViewPager
-        xmlns:android="http://schemas.android.com/apk/res/android"
         android:id="@+id/vp_portfolio"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="match_parent">
+
+        <com.google.android.material.tabs.TabLayout
+            android:id="@+id/tablayout_portfolio"
+            style="@style/PortfolioCustomTabLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="top"
+            android:background="?android:attr/colorPrimary"
+            app:tabSelectedTextColor="@color/colorAccent"
+            app:tabTextColor="@android:color/white" />
+    </androidx.viewpager.widget.ViewPager>
 
 </FrameLayout>
