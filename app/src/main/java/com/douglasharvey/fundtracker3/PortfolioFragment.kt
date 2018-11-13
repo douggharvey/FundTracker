@@ -50,7 +50,7 @@ class PortfolioFragment : androidx.fragment.app.Fragment() {
                 get(portfolioKey, FundPortfolioListViewModel::class.java)
 
         //todo decide how to implement adding a new portfolio
-//https://www.raywenderlich.com/324-viewpager-tutorial-getting-started-in-kotlin todo add tablayout
+//https://www.raywenderlich.com/324-viewpager-tutorial-getting-started-in-kotlin
         fundViewModel.portfolioList.observe(this, Observer(FundPortfolioListAdapter::setFundPortfolioList))
         fundViewModel.portfolioSummary.observe(this, Observer<FundPortfolioSummary> { portfolioSummary ->
             setFundPortfolioSummary(portfolioSummary)

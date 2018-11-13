@@ -10,6 +10,7 @@ class FundsRepository constructor(application: Application, portfolioCode: Strin
     val portfolioList: LiveData<List<FundSummary>>
     val favourites: LiveData<List<FundList>>
     val portfolioSummary: LiveData<FundPortfolioSummary>
+    val portfolioNameList: LiveData<List<String>>
 
     init {
         val db = FundsRoomDatabase.getDatabase(application)
@@ -18,6 +19,7 @@ class FundsRepository constructor(application: Application, portfolioCode: Strin
         this.favourites = fundDao.getFavourites()
         this.portfolioList = fundDao.getPortfolioList(portfolioCode.toInt())
         this.portfolioSummary = fundDao.getPortfolioSummary(portfolioCode.toInt())
+        this.portfolioNameList = fundDao.getPortfolioNameList()
     }
 
     suspend fun getFavourites2(): List<String> = fundDao.getFavourites2()

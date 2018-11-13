@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">FundTracker</string>
+    <string name="button_description_fund_list">Yatırım Fonları</string>
+    <string name="button_description_portfolio">Portföy</string>
+    <string name="button_description_favourites">Favoriler</string>
+    <string name="search_menu_name">Ara</string>
+    <string name="fund_list_search_hint">Fon seçiniz</string>
+    <string name="summary_text">Özet:</string>
+    <string name="summary_all">Hepsi</string>
+    <string name="one_day_income">Günlük Getiri</string>
+    <string name="seven_day_income">Haftalık Getiri</string>
+    <string name="last_month_income">Geçen ayın getirisi</string>
+    <string name="one_month_income">Aylık Getiri</string>
+    <string name="three_months_income">3 Aylık Getiri</string>
+    <string name="six_months_income">6 Aylık Getiri</string>
+    <string name="one_year_income">Yıllık Getiri</string>
+    <string name="three_years_income">3 Yıllık Getiri</string>
+    <string name="five_years_income">5 Yıllık Getiri</string>
+    <string name="year_to_date_income">Yılbaşından İtibaren Getiri</string>
+</resources>

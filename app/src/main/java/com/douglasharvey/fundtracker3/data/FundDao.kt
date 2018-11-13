@@ -25,6 +25,9 @@ interface FundDao {
     //todo add portfolio parameter here , maybe account too. add group by fund_code to get main page where condition is for portfolio if selected otherwise return all portfolios
     fun getPortfolioList(portfolioCode: Int): LiveData<List<FundSummary>>
 
+    @Query("SELECT portfolio_name FROM portfolio ORDER BY portfolio_code")
+    fun getPortfolioNameList(): LiveData<List<String>>
+
     @Query("SELECT sum(current_value) current_value, sum(cost) cost, count(distinct(fund_code)) number_funds, sum(profit_loss) profit_loss, sum(sold_proceeds) sold_proceeds " +
             "from fund_portfolio_list " +
             "where portfolio_code = (case when :portfolioCode = 0 then portfolio_code else :portfolioCode end) ")
@@ -44,5 +47,7 @@ interface FundDao {
 
     @Query("DELETE FROM favourite WHERE fund_code =:fundCode")
     fun deleteFavourite(fundCode: String)
+
+
 
 }

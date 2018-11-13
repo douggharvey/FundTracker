@@ -1,11 +1,20 @@
 <resources>
-    <string name="app_name">FundTracker3</string>
-
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
-    <string name="button_description_fund_list">Yatırım Fonları</string>
-    <string name="button_description_portfolio">Portföy</string>
+    <string name="app_name">FundTracker</string>
+    <string name="button_description_fund_list">Investment Funds</string>
+    <string name="button_description_portfolio">Portfolio</string>
     <string name="button_description_favourites">Favourites</string>
-    <string name="search_menu_title">Search</string>
-    <string name="fund_list_search_hint">Fon seçiniz</string>
+    <string name="search_menu_name">Search</string>
+    <string name="fund_list_search_hint">Choose a fund</string>
+    <string name="summary_text">Summary:</string>
+    <string name="summary_all">All</string>
+    <string name="one_day_income">One day</string>
+    <string name="seven_day_income">Last week</string>
+    <string name="last_month_income">Last month</string>
+    <string name="one_month_income">One month</string>
+    <string name="three_months_income">3 months</string>
+    <string name="six_months_income">6 months</string>
+    <string name="one_year_income">One year</string>
+    <string name="three_years_income">3 years</string>
+    <string name="five_years_income">5 years</string>
+    <string name="year_to_date_income">Year to date</string>
 </resources>
