@@ -17,8 +17,6 @@ import com.douglasharvey.fundtracker3.data.FundSummary
 import kotlinx.android.synthetic.main.fragment_portfolio.*
 import kotlinx.android.synthetic.main.fragment_portfolio.view.*
 
-//private val FRAGMENTARGUMENT1 = "portfolio_number"
-
 class PortfolioFragment : androidx.fragment.app.Fragment() {
     private var portfolio: Int = 0
     private lateinit var activityContext: Context
@@ -52,8 +50,8 @@ class PortfolioFragment : androidx.fragment.app.Fragment() {
         //todo decide how to implement adding a new portfolio
 //https://www.raywenderlich.com/324-viewpager-tutorial-getting-started-in-kotlin
         fundViewModel.portfolioList.observe(this, Observer(FundPortfolioListAdapter::setFundPortfolioList))
-        fundViewModel.portfolioSummary.observe(this, Observer<FundPortfolioSummary> { portfolioSummary ->
-            setFundPortfolioSummary(portfolioSummary)
+        fundViewModel.portfolioSummary.observe(this, Observer<FundPortfolioSummary> {
+                                                portfolioSummary -> setFundPortfolioSummary(portfolioSummary)
         })
         return viewInflater
     }
@@ -70,6 +68,7 @@ class PortfolioFragment : androidx.fragment.app.Fragment() {
         tv_sold_proceeds.text = "%.2f".format(portfolioSummary.soldProceeds)
         tv_profit_loss.text = "%.2f".format(portfolioSummary.profitLoss)
         tv_fund_number.text = "%.0f".format(portfolioSummary.numberFunds)
+      //  Toast.makeText(activityContext, "Portfolio values updated", Toast.LENGTH_LONG).show() //todo lots of repeats consider check if toast active and ignore
     }
 
     private fun fundItemClicked(fund: FundSummary) {

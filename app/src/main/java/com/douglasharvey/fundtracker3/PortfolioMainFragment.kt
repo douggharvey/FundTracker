@@ -22,8 +22,7 @@ class PortfolioMainFragment : Fragment() {
         val view = inflater.inflate(R.layout.fragment_portfolio_main, container, false)
         viewPager = view.findViewById(R.id.vp_portfolio) //todo why didn't extensions work here! ava.lang.IllegalStateException: vp_portfolio must not be null
 
-        val portfolioList : List<String> = emptyList()
-        val pagerAdapter = PortfolioPagerAdapter(fragmentManager!!, context , portfolioList)
+        val pagerAdapter = PortfolioPagerAdapter(fragmentManager!!, context)
         viewPager.adapter = pagerAdapter
 
         val fundPortfolioMainViewModel = ViewModelProviders.of(this).get(FundPortfolioMainViewModel::class.java)

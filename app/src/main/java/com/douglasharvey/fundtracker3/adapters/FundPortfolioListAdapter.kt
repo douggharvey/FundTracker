@@ -37,11 +37,6 @@ class FundPortfolioListAdapter(private val itemClick: (FundSummary) -> Unit) :
             current_price.text = "%.6f".format(fund.currentPrice)
             profit_loss.text = "%.2f".format(fund.profitLoss)
             sold_proceeds.text = "%.2f".format(fund.soldProceeds)
-//        @ColumnInfo(name = "current_price") val fundPrice: Double,
-//        @ColumnInfo(name = "profit_loss") val priceDate: Double,
-//        @ColumnInfo(name = "current_value") val oneDay: Double,
-//        @ColumnInfo(name = "cost") val sevenDays: Double
-
         }
     }
 }

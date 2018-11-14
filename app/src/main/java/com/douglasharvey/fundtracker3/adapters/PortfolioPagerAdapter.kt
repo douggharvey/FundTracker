@@ -8,11 +8,11 @@ import com.douglasharvey.fundtracker3.PortfolioFragment
 import com.douglasharvey.fundtracker3.R
 
 class PortfolioPagerAdapter(fm: FragmentManager,
-                            val context: Context?,
-                            var portfolioNames: List<String>) : //FragmentPagerAdapter(fm) {
+                            val context: Context?) : //FragmentPagerAdapter(fm) {
                                                     FragmentStatePagerAdapter(fm) {
     //todo switched back because of a problem with blank pages - find a solution as PagerAdapter is more efficient
 
+    var portfolioNames: List<String> = emptyList()
     //see https://www.raywenderlich.com/324-viewpager-tutorial-getting-started-in-kotlin
     override fun getItem(position: Int): Fragment = PortfolioFragment.newInstance(position)
 
