@@ -17,4 +17,8 @@
     <string name="three_years_income">3 years</string>
     <string name="five_years_income">5 years</string>
     <string name="year_to_date_income">Year to date</string>
+    <string name="fund_list_updating">Fund List updating</string>
+    <string name="values_updating">Values updating</string>
+    <string name="fund_list_updated">Fund List updated</string>
+    <string name="values_updated">Values updated</string>
 </resources>

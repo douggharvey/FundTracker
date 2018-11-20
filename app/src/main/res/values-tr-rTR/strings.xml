@@ -18,4 +18,8 @@
     <string name="three_years_income">3 Yıllık Getiri</string>
     <string name="five_years_income">5 Yıllık Getiri</string>
     <string name="year_to_date_income">Yılbaşından İtibaren Getiri</string>
+    <string name="fund_list_updating">Fon listesi güncelleniyor</string>
+    <string name="values_updating">Değerleri güncelleniyor</string>
+    <string name="fund_list_updated">Fon listesi güncellendi</string>
+    <string name="values_updated">Değerleri güncellendi</string>
 </resources>
