@@ -4,12 +4,19 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import com.douglasharvey.fundtracker3.FundValue
 import com.douglasharvey.fundtracker3.R
+import com.douglasharvey.fundtracker3.api.FundInterface
+import com.douglasharvey.fundtracker3.api.ServiceGenerator
 import com.douglasharvey.fundtracker3.application.FundTrackerApplication
+import com.douglasharvey.fundtracker3.constants.oldestFundValueDate
 import com.douglasharvey.fundtracker3.data.Favourite
 import com.douglasharvey.fundtracker3.data.FundList
+import com.douglasharvey.fundtracker3.data.FundPrice
 import com.douglasharvey.fundtracker3.data.FundsRepository
 import kotlinx.android.synthetic.main.list_item_funds.view.*
+import kotlinx.coroutines.*
+import java.util.*
 
 // Refer https://github.com/antoniolg/Kotlin-for-Android-Developers/blob/master/app/src/main/java/com/antonioleiva/weatherapp/ui/adapters/ForecastListAdapter.kt
 // https://antonioleiva.com/recyclerview-adapter-kotlin/
@@ -47,7 +54,7 @@ class FundListAdapter(private val itemClick: (FundList) -> Unit) :
             start_of_year.text = fund.startYear
             // todo override onInterceptTouchEvent, get X position and then apply to all views in recyclerview with  horizontal_scrollview.scrollTo(1000,0)
 
-            if (fund.oneDay=="0") horizontal_scrollview.visibility = View.GONE
+            if (fund.oneDay.equals("0")) horizontal_scrollview.visibility = View.GONE else horizontal_scrollview.visibility = View.VISIBLE
             if (fund.fundPrice.equals("0")) fund_price.text = " " else fund_price.text = fund.fundPrice
             favourites_button.isFavorite = (fund.fundCode.equals(fund.favFundCode))
 
@@ -63,11 +70,26 @@ class FundListAdapter(private val itemClick: (FundList) -> Unit) :
                 if (favouriteOnOff) {
                     FundsRepository.getInstance(FundTrackerApplication.instance).insertFavourite(Favourite(fund.fundCode))
                     Toast.makeText(context, "${fund.fundCode} added to favourites", Toast.LENGTH_LONG).show()
+                    GlobalScope.launch { readNewFavouriteValues(fund.fundCode) }
                 } else {
                     FundsRepository.getInstance(FundTrackerApplication.instance).deleteFavourite(fund.fundCode)
                     Toast.makeText(context, "${fund.fundCode} removed from favourites", Toast.LENGTH_LONG).show()
                 }
             }
         }
+
+        suspend private fun readNewFavouriteValues(fundCode:String) = runBlocking {
+            val fundInterface = ServiceGenerator.createService(FundInterface::class.java)
+            launch(Dispatchers.IO) {
+                val fundValueArrayList: ArrayList<FundValue> = fundInterface.values(fundCode, oldestFundValueDate, "2035-01-01").await()
+                val fundPriceList: ArrayList<FundPrice> = arrayListOf()
+                for (fundValue: FundValue in fundValueArrayList) {
+                    fundPriceList.add(FundPrice(fundValue.fundCode, fundValue.unitValue, fundValue.valueDate))
+                }
+                FundsRepository.getInstance(FundTrackerApplication.instance).bulkInsertFundPrice(fundPriceList)
+            }
+
+        }
+
     }
 }

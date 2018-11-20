@@ -5,6 +5,7 @@ package com.douglasharvey.fundtracker3.utilities
 import android.content.Context
 import android.content.SharedPreferences
 import android.preference.PreferenceManager
+import com.douglasharvey.fundtracker3.constants.oldestFundValueDate
 import java.util.*
 
 class Prefs (context: Context) {
@@ -14,7 +15,7 @@ class Prefs (context: Context) {
     var date = Date(System.currentTimeMillis())
 
     var pricesDate: String
-        get() = prefs.getString(PRICES_DATE, "2013-10-01") //Note: 5 years should be plenty of data. Trying to get more gives a timeout
+        get() = prefs.getString(PRICES_DATE, oldestFundValueDate)
         set(value) = prefs.edit().putString(PRICES_DATE, value).apply()
 
     var namesUpdateDate: Date

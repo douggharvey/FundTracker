@@ -14,6 +14,7 @@ import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.coroutines.*
 import kotlinx.coroutines.android.Main
+import timber.log.Timber
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -50,15 +51,16 @@ class MainActivity : AppCompatActivity() {
         return cal.time
     }
 
-    //todo temporary for testing purposes - will be a scheduled job instead
     suspend private fun readFundList() = runBlocking {
         prefs.namesUpdateDate = Date(System.currentTimeMillis())
         val fundInterface = ServiceGenerator.createService(FundInterface::class.java)
         launch(Dispatchers.Main) {
             val fundSourceArrayList: ArrayList<FundSource> = fundInterface.funds().await() // TODO how to get / handle response code - find other examples
             for (fundSource: FundSource in fundSourceArrayList) {
-                val fund = Fund(fundSource.fundCode, fundSource.fundName)
-                FundsRepository.getInstance(application).insertFund(fund)
+                if (fundSource.fundType != "X") { //Exclude redundant records
+                    val fund = Fund(fundSource.fundCode, fundSource.fundName)
+                    FundsRepository.getInstance(application).insertFund(fund)
+                }
             }
             withContext(Dispatchers.Main) { Snackbar.make(mainLayout, getString(R.string.fund_list_updated), Snackbar.LENGTH_LONG).show(); }
         }
@@ -72,10 +74,12 @@ class MainActivity : AppCompatActivity() {
             if (favourites.size != 0) {
                 favouriteList = favourites.joinToString()
 
+                Timber.d("FAVOURITES: "+ favourites.size + " " + favouriteList)
                 val fundValueArrayList: ArrayList<FundValue> = fundInterface.values(favouriteList, prefs.pricesDate, "2035-01-01").await()
                 val fundPriceList: ArrayList<FundPrice> = arrayListOf()
                 var valueDate: String
                 for (fundValue: FundValue in fundValueArrayList) {
+                    Timber.d("FAVOURITES: "+fundValue.fundCode + " " + fundValue.valueDate)
                     fundPriceList.add(FundPrice(fundValue.fundCode, fundValue.unitValue, fundValue.valueDate))
                     valueDate = fundValue.valueDate.substring(0, 10)
                     if (valueDate > prefs.pricesDate) {

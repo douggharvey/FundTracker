@@ -55,7 +55,7 @@ abstract class FundsRoomDatabase : RoomDatabase() {
 
             override fun onOpen(db: SupportSQLiteDatabase) {
                 super.onOpen(db)
-             //   populateDB(db)
+                //   populateDB(db)
             }
 
             private fun populateDB(db: SupportSQLiteDatabase) {
@@ -65,10 +65,10 @@ abstract class FundsRoomDatabase : RoomDatabase() {
                         "BEGIN " +
                         "   DELETE FROM fund_price_summary WHERE fund_code = new.fund_code; " +
                         "   INSERT INTO fund_price_summary " +
-                        "       SELECT fund_code, (latest_price/fund_price-1) * 100, price_date FROM " +
-                        "           (SELECT fund_code, fund_price, price_date, (SELECT fund_price FROM fund_prices WHERE " +
+                        "       SELECT fund_code, IFNULL((latest_price/fund_price-1) * 100,0), price_date FROM " +
+                        "           (SELECT fund_code, fund_price, price_date, IFNULL((SELECT fund_price FROM fund_prices WHERE " +
                         "                   fund_code = po.fund_code and price_date = (SELECT MAX(price_date) FROM fund_prices " +
-                        "                   WHERE fund_code = po.fund_code)) latest_price FROM fund_prices po WHERE po.fund_code = new.fund_code ORDER BY price_date); " +
+                        "                   WHERE fund_code = po.fund_code)),0) latest_price FROM fund_prices po WHERE po.fund_code = new.fund_code ORDER BY price_date); " +
                         "   DELETE FROM fund_price_overview WHERE fund_code = new.fund_code; " +
                         "   INSERT INTO fund_price_overview " +
                         "       SELECT ps.fund_code, " +
@@ -150,7 +150,7 @@ abstract class FundsRoomDatabase : RoomDatabase() {
                         "('YLB',0.221881,4506,'2018-08-10','B','TR22 0006 7010 0000 0025 9055 89'   )  ," +
                         "('YLB',0.20812,9609,'2018-02-22','B','TR22 0006 7010 0000 0025 9055 89'   )  ," +
                         "('YLB',0.218475,938,'2018-07-06','B','TR06 0006 7010 0000 0092 3877 37'     )  ," +
-            //Garanti transactions
+                        //Garanti transactions
                         "('IST',0.019374,9294,  '2017-10-26','S','TR63 0006 2001 3200 0006 6967 54')	,  " +
                         "('TTE',0.051505,15000, '2017-09-11','B','TR63 0006 2001 3200 0006 6967 54') ,     " +
                         "('IST',0.019331,18630, '2017-10-20','S','TR63 0006 2001 3200 0006 6967 54') ,     " +

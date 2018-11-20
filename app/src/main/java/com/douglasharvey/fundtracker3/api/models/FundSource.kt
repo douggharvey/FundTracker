@@ -6,5 +6,7 @@ data class FundSource(
         @SerializedName("Kodu")
         val fundCode: String,
         @SerializedName("Adi")
-        val fundName : String
+        val fundName: String,
+        @SerializedName("Tipi")
+        val fundType: String
 )

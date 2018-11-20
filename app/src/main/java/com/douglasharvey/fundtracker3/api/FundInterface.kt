@@ -14,7 +14,8 @@ interface FundInterface {
                @Path( "endDate") endDate: String
     ): Deferred<ArrayList<FundValue>>
 
-    @GET("PortfolioValues/api/Funds/4")
+    @GET("PortfolioValues/api/Funds/1")
     fun funds(): Deferred<ArrayList<FundSource>>
-
+//Şirket Tipi. 1: Menkul Kıymet Yatırım Fonları, 2: Emeklilik Yatırım Fonları, 3: Menkul Kıymet Yatırım Ortaklıkları,
+// 4: Tüm Yatırım Fonları, 7: Gayrimenukul Yatırım Ortaklıkları, 8: Risk Sermayesi Yatırım Ortaklıkları.
 }
