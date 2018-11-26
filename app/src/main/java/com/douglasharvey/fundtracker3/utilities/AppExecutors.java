@@ -18,10 +18,11 @@ package com.douglasharvey.fundtracker3.utilities;
 
 import android.os.Handler;
 import android.os.Looper;
-import androidx.annotation.NonNull;
 
 import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
+
+import androidx.annotation.NonNull;
 
 /**
  * Global executor pools for the whole application.
@@ -48,7 +49,7 @@ public class AppExecutors {
         if (sInstance == null) {
             synchronized (LOCK) {
                 sInstance = new AppExecutors(Executors.newSingleThreadExecutor(),
-                        Executors.newFixedThreadPool(3),
+                        Executors.newFixedThreadPool(20),
                         new MainThreadExecutor());
             }
         }

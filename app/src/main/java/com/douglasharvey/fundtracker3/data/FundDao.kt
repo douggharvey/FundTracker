@@ -40,12 +40,7 @@ interface FundDao {
     fun insertFundPrice(fundPrice: FundPrice): Long
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun bulkInsertFundPrice(fundPriceList: List<FundPrice>) //todo consider transactions- if two many in quick succession are favourited then errors occur at db level
-    // 00:35:07.680 32276-32363/com.douglasharvey.fundtracker3 W/SQLiteConnectionPool: The connection pool for database '/data/user/0/com.douglasharvey.fundtracker3/databases/funds_database' has been unable to grant a connection to thread 4494 (arch_disk_io_0) with flags 0x2 for 30.000002 seconds.
-    //    Connections: 1 active, 0 idle, 1 available.
-    //
-    //    Requests in progress:
-    //      executeForLastInsertedRowId started 3ms ago - running, sql="INSERT OR REPLACE INTO `fund_prices`(`fund_code`,`fund_price`,`price_date`) VALUES (?,?,?)"
+    fun bulkInsertFundPrice(fundPriceList: List<FundPrice>)
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insertFavourite(favourite: Favourite)

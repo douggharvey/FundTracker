@@ -26,20 +26,22 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         if (NetworkUtils.isInternetAvailable(applicationContext)) {
-            //todo temporarily removed for speed
+            val currentDate = Date(System.currentTimeMillis())
 
-            val sevenDaysAgo = addDays(Date(System.currentTimeMillis()), -7)
+            val sevenDaysAgo = addDays(currentDate, -7)
             if (prefs.namesUpdateDate < sevenDaysAgo) {
                 Snackbar.make(mainLayout, getString(R.string.fund_list_updating), Snackbar.LENGTH_LONG).show();
                 GlobalScope.launch { readFundList() }
             } //TODO LOGGING INTERCEPTOR NULL PROBLEM
 
-//todo if a new favourite is added should reset price date or do a special load just of that favourite's prices
             val formatter = SimpleDateFormat("yyyy-MM-dd")
             val priceDatePlus1 = addDays(formatter.parse(prefs.pricesDate), 1)
-            if (priceDatePlus1 < Date(System.currentTimeMillis())) {
-                Snackbar.make(mainLayout, getString(R.string.values_updating), Snackbar.LENGTH_LONG).show();
-                GlobalScope.launch { readFavouriteValues() }
+            val dayOfWeek = getDayOfWeek(currentDate)
+            if (dayOfWeek != Calendar.SATURDAY && dayOfWeek != Calendar.SUNDAY) {
+                if (priceDatePlus1 < currentDate) {
+                    Snackbar.make(mainLayout, getString(R.string.values_updating), Snackbar.LENGTH_LONG).show();
+                    GlobalScope.launch { readFavouriteValues() }
+                }
             }
         }
     }
@@ -49,6 +51,12 @@ class MainActivity : AppCompatActivity() {
         cal.time = date
         cal.add(Calendar.DATE, days)
         return cal.time
+    }
+
+    fun getDayOfWeek(date: Date): Int {
+        val cal = GregorianCalendar()
+        cal.time = date
+        return cal.get(Calendar.DAY_OF_WEEK)
     }
 
     suspend private fun readFundList() = runBlocking {
@@ -65,7 +73,7 @@ class MainActivity : AppCompatActivity() {
             withContext(Dispatchers.Main) { Snackbar.make(mainLayout, getString(R.string.fund_list_updated), Snackbar.LENGTH_LONG).show(); }
         }
     }
-
+//TODO problems with insert failing but prefs is updated , i.e. transaction fails but prefs is updated so data will be missing
     suspend private fun readFavouriteValues() = runBlocking {
         var favouriteList = " "
         val fundInterface = ServiceGenerator.createService(FundInterface::class.java)
@@ -74,12 +82,12 @@ class MainActivity : AppCompatActivity() {
             if (favourites.size != 0) {
                 favouriteList = favourites.joinToString()
 
-                Timber.d("FAVOURITES: "+ favourites.size + " " + favouriteList)
+                Timber.d("FAVOURITES: " + favourites.size + " " + favouriteList)
                 val fundValueArrayList: ArrayList<FundValue> = fundInterface.values(favouriteList, prefs.pricesDate, "2035-01-01").await()
                 val fundPriceList: ArrayList<FundPrice> = arrayListOf()
                 var valueDate: String
                 for (fundValue: FundValue in fundValueArrayList) {
-                    Timber.d("FAVOURITES: "+fundValue.fundCode + " " + fundValue.valueDate)
+                    Timber.d("FAVOURITES: " + fundValue.fundCode + " " + fundValue.valueDate)
                     fundPriceList.add(FundPrice(fundValue.fundCode, fundValue.unitValue, fundValue.valueDate))
                     valueDate = fundValue.valueDate.substring(0, 10)
                     if (valueDate > prefs.pricesDate) {

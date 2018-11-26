@@ -9,7 +9,7 @@ import com.douglasharvey.fundtracker3.R
 import com.douglasharvey.fundtracker3.api.FundInterface
 import com.douglasharvey.fundtracker3.api.ServiceGenerator
 import com.douglasharvey.fundtracker3.application.FundTrackerApplication
-import com.douglasharvey.fundtracker3.constants.oldestFundValueDate
+import com.douglasharvey.fundtracker3.constants.OLDESTFUNDVALUEDATE
 import com.douglasharvey.fundtracker3.data.Favourite
 import com.douglasharvey.fundtracker3.data.FundList
 import com.douglasharvey.fundtracker3.data.FundPrice
@@ -77,11 +77,12 @@ class FundListAdapter(private val itemClick: (FundList) -> Unit) :
                 }
             }
         }
-
+//TODO investigate alternative solution, increased the number of threads from 3 to 20 but a timeout errors occurs instead. May consider deferring
+        // retrieval of fund values until screen is exited, then get all in one go with a list (one network request).
         suspend private fun readNewFavouriteValues(fundCode:String) = runBlocking {
             val fundInterface = ServiceGenerator.createService(FundInterface::class.java)
             launch(Dispatchers.IO) {
-                val fundValueArrayList: ArrayList<FundValue> = fundInterface.values(fundCode, oldestFundValueDate, "2035-01-01").await()
+                val fundValueArrayList: ArrayList<FundValue> = fundInterface.values(fundCode, OLDESTFUNDVALUEDATE, "2035-01-01").await()
                 val fundPriceList: ArrayList<FundPrice> = arrayListOf()
                 for (fundValue: FundValue in fundValueArrayList) {
                     fundPriceList.add(FundPrice(fundValue.fundCode, fundValue.unitValue, fundValue.valueDate))
